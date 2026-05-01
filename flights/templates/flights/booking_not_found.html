@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Not found</title>
+
+<style>
+body{
+    font-family:Inter, Arial;
+    background:#f6f7fb;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.box{
+    background:white;
+    padding:40px;
+    border-radius:28px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+a{
+    display:block;
+    margin-top:15px;
+    color:#4338ca;
+}
+</style>
+
+</head>
+<body>
+
+<div class="box">
+<h2>Booking not found</h2>
+<a href="{% url 'index' %}">Go back</a>
+</div>
+
+</body>
+</html>

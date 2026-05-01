@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Booking Found</title>
+
+<style>
+body{
+    font-family: Inter, Arial;
+    background:#f6f7fb;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+    width:420px;
+}
+.route{
+    font-size:28px;
+    font-weight:700;
+}
+.meta{
+    color:#6b7280;
+    margin-top:8px;
+}
+.code{
+    margin-top:20px;
+    background:#eef2ff;
+    padding:8px 12px;
+    display:inline-block;
+    border-radius:999px;
+    color:#4338ca;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<div class="route">
+{{ booking.flight.origin.code }} → {{ booking.flight.destination.code }}
+</div>
+
+<div class="meta">
+Passenger: {{ booking.passenger.name }}
+</div>
+
+<div class="meta">
+{{ booking.flight.origin.city }} → {{ booking.flight.destination.city }}
+</div>
+
+<div class="meta">
+Duration: {{ booking.flight.duration }} min
+</div>
+
+<div class="code">
+Booking code: {{ booking.booking_code }}
+</div>
+
+</div>
+
+</body>
+</html>

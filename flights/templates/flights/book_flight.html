@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Flight</title>
+    <link rel="stylesheet" href="{% static 'flights/book_flight.css' %}">
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Book flight</h2>
+
+    <p>{{ flight.origin }} → {{ flight.destination }}</p>
+
+    <p>Seats left: {{ seats_left }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <p>Booking for account: {{ request.user.username }}</p>
+
+        <button type="submit">Confirm booking</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "users/base.html" %}
+{% block title %}Manage Users{% endblock %}
+
+{% block body %}
+<div class="card" style="max-width: 900px;">
+  <span class="logo">◈ Airline Admin</span>
+  <h1>Users</h1>
+  <p class="subtitle">Create, edit, and delete user accounts.</p>
+  <p style="margin-bottom:16px;"><a href="{% url 'admin_user_create' %}">+ Create new user</a></p>
+
+  <div class="info-grid">
+    {% for user_obj in users %}
+      <div class="info-row">
+        <span class="key">{{ user_obj.username }}{% if user_obj.is_staff %} (admin){% endif %}</span>
+        <span class="val">{{ user_obj.email|default:"-" }}</span>
+        <span class="val">
+          {% for booking in user_obj.bookings.all %}
+            {{ booking.booking_code }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            No bookings
+          {% endfor %}
+        </span>
+        <span class="val">
+          <a href="{% url 'admin_user_edit' user_obj.id %}">Edit</a> |
+          <a href="{% url 'admin_user_delete' user_obj.id %}">Delete</a>
+        </span>
+      </div>
+    {% empty %}
+      <div class="info-row">
+        <span class="key">No users found</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

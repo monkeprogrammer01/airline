@@ -1,0 +1,30 @@
+ body {
+    font-family: Arial;
+    background: #f4f6f8;
+    padding: 40px;
+ }
+
+        .box {
+            background: white;
+            padding: 30px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your bookings</title>
+    <link rel="stylesheet" href="{% static 'flights/bookings.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="search-box">
+
+<h2>Your bookings</h2>
+<p>Signed in as {{ request.user.username }}{% if email %} ({{ email }}){% endif %}</p>
+
+</div>
+
+{% if bookings %}
+
+{% for booking in bookings %}
+
+<div class="flight-card">
+
+<div class="route">
+{{ booking.flight.origin.code }} → {{ booking.flight.destination.code }}
+</div>
+
+<div class="meta">
+{{ booking.flight.origin.city }} → {{ booking.flight.destination.city }}
+</div>
+
+<div class="meta">
+Duration: {{ booking.flight.duration }} min
+</div>
+
+<div class="code">
+Booking code: {{ booking.booking_code }}
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p>No bookings found</p>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

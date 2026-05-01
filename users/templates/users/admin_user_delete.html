@@ -1,0 +1,16 @@
+{% extends "users/base.html" %}
+{% block title %}Delete User{% endblock %}
+
+{% block body %}
+<div class="card">
+  <span class="logo">◈ Airline Admin</span>
+  <h1>Delete {{ user_obj.username }}?</h1>
+  <p class="subtitle">This action cannot be undone.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn" type="submit" style="background:#dc2626;">Delete user</button>
+  </form>
+  <p class="link-row"><a href="{% url 'admin_users' %}">Cancel</a></p>
+</div>
+{% endblock %}

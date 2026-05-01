@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight</title>
+    <link rel="stylesheet" href="{% static 'flights/flight.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="{% url 'index' %}" class="back">← Back to flights</a>
+
+<div class="flight-card">
+
+<div class="route">
+{{ flight.origin.code }} → {{ flight.destination.code }}
+</div>
+
+<div class="cities">
+{{ flight.origin.city }} → {{ flight.destination.city }}
+</div>
+
+<div class="info-grid">
+
+<div class="info-box">
+<div class="label">Duration</div>
+<div class="value">{{ flight.duration }}</div>
+</div>
+<div class="info-box">
+<div class="label">Total Capacity</div>
+<div class="value">{{ flight.capacity }}</div>
+</div>
+
+<div class="info-box">
+<div class="label">Seats Left</div>
+<div class="value">{{ seats_left }}</div>
+</div>
+
+<div class="info-box">
+<div class="label">Booked Passengers</div>
+<div class="value">{{ booked_passengers }}</div>
+</div>
+
+</div>
+
+<a href="{% url 'book_flight' flight.id %}" class="book-btn">Book this flight</a>
+
+{% if can_view_passengers %}
+    <div class="section-title">
+    Passengers on this flight
+    </div>
+
+    <div class="passenger-list">
+    {% for booking in flight.bookings.all %}
+
+    <div class="passenger">
+        <div>{{ booking.passenger.name }} - {{ booking.passenger.email }}</div>
+        <div>{{ booking.booking_code }}</div>
+    </div>
+
+    {% empty %}
+
+    <p>No passengers yet</p>
+
+    {% endfor %}
+
+    </div>
+{% endif %}
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+{% extends "users/base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+  .card { max-width: 480px; }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: #0f0f11;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .profile-header h1 { margin-bottom: 4px; font-size: 1.6rem; }
+  .profile-header .subtitle { margin-bottom: 0; }
+
+  .info-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    padding: 14px 18px;
+    font-size: .9rem;
+  }
+
+  .info-row .key {
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .info-row .val { color: var(--text); font-weight: 400; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .75rem;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+  .badge.active { background: #c8f04e18; color: var(--accent); border: 1px solid #c8f04e30; }
+  .badge.staff  { background: #7c6ff718; color: var(--accent2); border: 1px solid #7c6ff730; }
+
+  .btn-logout {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+    text-align: center;
+    text-decoration: none;
+  }
+  .btn-logout:hover { border-color: var(--error); color: var(--error); }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="card" style="max-width: 700px;">
+  <span class="logo">◈ Airline</span>
+
+  <div class="profile-header">
+    <div class="avatar">{{ user.username|first|upper }}</div>
+    <div>
+      <h1>{{ user.get_full_name|default:user.username }}</h1>
+      <p class="subtitle">@{{ user.username }}</p>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-row">
+      <span class="key">Email</span>
+      <span class="val">{{ user.email|default:"—" }}</span>
+    </div>
+    <div class="info-row">
+      <span class="key">Member since</span>
+      <span class="val">{{ user.date_joined|date:"N j, Y" }}</span>
+    </div>
+    <div class="info-row">
+      <span class="key">Last login</span>
+      <span class="val">{{ user.last_login|date:"N j, Y · H:i"|default:"—" }}</span>
+    </div>
+    <div class="info-row">
+      <span class="key">Status</span>
+      <span class="val">
+        {% if user.is_active %}
+          <span class="badge active">● Active</span>
+        {% endif %}
+        {% if user.is_staff %}
+          <span class="badge staff">★ Staff</span>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:10px;">Edit account</h3>
+  <form method="post" style="margin-bottom:20px;">
+    {% csrf_token %}
+    <div class="field">
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+    </div>
+    <div class="field">
+      <label for="{{ form.first_name.id_for_label }}">First name</label>
+      {{ form.first_name }}
+    </div>
+    <div class="field">
+      <label for="{{ form.last_name.id_for_label }}">Last name</label>
+      {{ form.last_name }}
+    </div>
+    <button class="btn" type="submit">Save changes</button>
+  </form>
+
+  <h3 style="margin-bottom:10px;">Your booking codes</h3>
+  <div class="info-grid" style="margin-bottom:20px;">
+    {% for booking in user_bookings %}
+      <div class="info-row">
+        <span class="key">{{ booking.flight.origin.code }} to {{ booking.flight.destination.code }}</span>
+        <span class="val">{{ booking.booking_code }}</span>
+      </div>
+    {% empty %}
+      <div class="info-row">
+        <span class="key">No bookings yet</span>
+        <span class="val">-</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if user.is_staff %}
+    <a class="btn-logout" href="{% url 'admin_users' %}" style="margin-bottom: 12px;">Manage all users</a>
+  {% endif %}
+
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button class="btn-logout" type="submit">Sign out</button>
+  </form>
+</div>
+{% endblock %}

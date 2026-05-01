@@ -1,0 +1,64 @@
+body {
+    font-family: Inter, Arial;
+    background: #f6f7fb;
+    padding: 60px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.search-box {
+    background: white;
+    padding: 30px;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.05);
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    background: #111827;
+    color: white;
+}
+
+.flight-card {
+    background: white;
+    padding: 22px;
+    border-radius: 24px;
+    margin-bottom: 15px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.05);
+}
+
+.route {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.meta {
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+.code {
+    margin-top: 12px;
+    font-size: 13px;
+    background: #eef2ff;
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: #4338ca;
+}

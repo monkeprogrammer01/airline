@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airport</title>
+    <link rel="stylesheet" href="{% static 'flights/airport.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="airport-card">
+
+        <h1>{{ airport.city }}</h1>
+        <p>Code: {{ airport.code }}</p>
+        <div class="section">
+            <h2>Departures</h2>
+
+            {% for flight in airport.departures.all %}
+
+                <div class="flight-card">
+                    <div>
+                        {{ flight.origin }} → {{ flight.destination }}
+                        <br>
+                        Duration: {{ flight.duration }} min
+                    </div>
+
+                    <a href="{% url 'flight' flight.id %}" class="details-link">
+                        View details
+                    </a>
+                </div>
+
+            {% empty %}
+                <p class="empty">No departures</p>
+            {% endfor %}
+
+        </div>
+
+        <div class="section">
+            <h2>Arrivals</h2>
+
+            {% for flight in airport.arrivals.all %}
+
+                <div class="flight-card">
+                    <div>
+                        {{ flight.origin }} → {{ flight.destination }}
+                        <br>
+                        Duration: {{ flight.duration }} min
+                    </div>
+
+                    <a href="{% url 'flight' flight.id %}" class="details-link">
+                        View details
+                    </a>
+                </div>
+
+            {% empty %}
+                <p class="empty">No arrivals</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flight Booking</title>
+    <link rel="stylesheet" href="{% static 'flights/index.css' %}">
+</head>
+<body>
+  <div class="container">
+    {% if show_promo_banner and promo_code %}
+      <div class="promo-banner">
+        Welcome! Your first-visit promo code is <strong>{{ promo_code }}</strong>
+      </div>
+    {% endif %}
+    <nav class="navbar">
+      <div class="logo">SkyLine</div>
+        <div class="nav-links">
+            <a href="#flights">Flights</a>
+            <a href="#airports">Airports</a>
+            <a href="{% url 'bookings' %}">Bookings</a>
+            {% if user.is_staff %}
+                <a href="{% url 'admin_users' %}">Manage users</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="nav-btn">{{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-btn">Sign in</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Book flights with a clean and simple experience</h1>
+        <p>
+          Browse flights, open airport pages, and check your booking by unique code — all in one minimal interface.
+        </p>
+
+<form class="booking-check" method="POST" action="{% url 'check_booking' %}">
+    {% csrf_token %}
+    <input
+        type="text"
+        name="code"
+        placeholder="Enter your unique booking code"
+        required
+    >
+    <button type="submit">Check Booking</button>
+</form>
+      </div>
+
+      <div class="hero-right">
+        <div>
+          <div class="small">Featured</div>
+          <h3>Fast access to all routes</h3>
+          <p>
+            View available flights, open details, and keep the interface lightweight and easy to navigate.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="airports">
+      <div class="section-header">
+        <h2>Airports</h2>
+        <span>Choose an airport to view arrivals and departures</span>
+      </div>
+
+      <div class="airport-list">
+          {% for airport in airports %}
+              <a href="{% url 'airport' airport.id %}" class="airport-chip">{{ airport.city }} ({{ airport.code }})</a>
+          {% endfor %}
+      </div>
+    </section>
+
+    <section class="section" id="flights">
+      <div class="section-header">
+        <h2>Available Flights</h2>
+        <span>Click a flight to view and book</span>
+      </div>
+
+      <div class="flights-grid">
+          {% for flight in flights %}
+              <div class="flight-card">
+          <div class="flight-top">
+            <div class="flight-id">Flight #{{ flight.id }}</div>
+            <div class="status">{% if flight.capacity > 0 %}Available{% else %}Not Available{% endif %}</div>
+          </div>
+
+          <div class="route">{{ flight.origin.code }} → {{ flight.destination.code }}</div>
+          <div class="cities">{{ flight.origin.city }} → {{ flight.destination.city }}</div>
+
+          <div class="flight-info">
+            <div class="info-box">
+              <div class="label">Duration</div>
+              <div class="value">{{ flight.duration }}</div>
+            </div>
+            <div class="info-box">
+              <div class="label">Capacity</div>
+              <div class="value">{{ flight.capacity }}</div>
+            </div>
+          </div>
+
+          <div class="flight-actions">
+            <a href="{% url 'flight' flight.id %}" class="details-link">View details</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'book_flight' flight.id %}" class="book-btn">Book now</a>
+            {% else %}
+                <a href="{% url 'login' %}?next={% url 'book_flight' flight.id %}" class="book-btn">Book now</a>
+            {% endif %}
+          </div>
+        </div>
+          {% endfor %}
+        </div>
+    </section>
+
+    <div class="footer-space"></div>
+  </div>
+</body>
+</html>
